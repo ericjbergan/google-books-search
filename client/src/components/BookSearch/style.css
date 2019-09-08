@@ -1,0 +1,16 @@
+input {
+    width: 100%;
+}
+
+label {
+    margin: 10px 10px 0 10px;
+}
+
+button {
+    float: right;
+    margin: 10px 0;
+}
+
+.search {
+    border: 1px solid grey;
+}
