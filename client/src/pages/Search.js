@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Header from "../components/Header/Header";
 import BookSearch from "../components/BookSearch/BookSearch";
 import SearchResults from "../components/SearchResults/SearchResults"
+import Axios from 'axios';
 import API from '../Utilities/API'
 
 class Search extends Component {
@@ -18,7 +19,8 @@ class Search extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        API.getBooks(this.state.search)
+        Axios.get("https://www.googleapis.com/books/v1/volumes?q=" + this.state.search)
+        // API.bookSearch(this.state.search)
             .then(res => {
                 if (res.data.status === "error") {
                     throw new Error(res.data.message);
@@ -28,14 +30,17 @@ class Search extends Component {
             .catch(err => this.setState({ error: err.message }));
     }
 
-    handleClickSave = event => {
-        event.preventDefault();
+    handleClickSave = (bookID, title, authors, description, image) => {
+        // event.preventDefault();
         API.saveBook({
-            title: this.state.title,
-            author: this.state.author,
-            synopsis: this.state.synopsis
+            key: bookID,
+            bookID: bookID,
+            title: title,
+            author: authors,
+            description: description,
+            image: image
         })
-            .catch(err => console.log(err));
+            // .catch(err => console.log(err));
     };
 
     render() {
