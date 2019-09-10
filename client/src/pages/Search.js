@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Navbar from '../components/Nav/index'
 import Header from "../components/Header/Header";
 import BookSearch from "../components/BookSearch/BookSearch";
 import SearchResults from "../components/SearchResults/SearchResults"
@@ -42,40 +41,61 @@ class Search extends Component {
   handleInputChange = event => {
     const noSpaces = event.target.value.replace(/\s/g, '');
     this.setState({ searchInput: noSpaces });
-    console.log(this.state.searchInput);
-};
+  };
 
   handleFormSubmit = event => {
     event.preventDefault();
     API.getBooks(this.state.searchInput)
-        .then(res => {
-            if (res.data.status === "error") {
-                throw new Error(res.data.message);
-            }
-            this.setState({ searchResults: res.data.items, error: "" });
-            console.log(this.state.searchResults);
-        })
-        .catch(err => this.setState({ error: err.message }));
-}
+      .then(res => {
+        if (res.data.status === "error") {
+          throw new Error(res.data.message);
+        }
+        this.setState({ searchResults: res.data.items, error: "" });
+      })
+      .catch(err => this.setState({ error: err.message }));
+  }
+
+  handleClickSave = event => {
+    event.preventDefault();
+    console.log("save clicked");
+    // API.saveBook({
+    //     title: this.state.searchResults.volumeInfo.title,
+    //     author: this.state.searchResults.volumeInfo.authors,
+    //     synopsis: this.state.searchResults.volumeInfo.description
+    // })
+    //     .catch(err => console.log(err));
+};
+
+  // handleFormSubmit = event => {
+  //   event.preventDefault();
+  //   if (this.state.title && this.state.author) {
+  //     API.saveBook({
+  //       title: this.state.title,
+  //       author: this.state.author,
+  //       synopsis: this.state.synopsis
+  //     })
+  //       .then(res => this.loadBooks())
+  //       .catch(err => console.log(err));
+  //   }
+  // };
 
   render() {
     return (
-        <div>
-            {/* <Navbar /> */}
-            <Header /><hr />
-            <BookSearch
-                value={this.state.search}
-                click={this.handleFormSubmit}
-                change={this.handleInputChange}
-            /><hr />
-            <SearchResults
-                results={this.state.searchResults}
-                clickView={this.handleClickView}
-                clickSave={this.handleClickSave}
-            />
-        </div>
+      <div>
+        <Header /><hr />
+        <BookSearch
+          value={this.state.search}
+          click={this.handleFormSubmit}
+          change={this.handleInputChange}
+        /><hr />
+        <SearchResults
+          results={this.state.searchResults}
+          clickView={this.handleClickView}
+          clickSave={this.handleClickSave}
+        />
+      </div>
     )
-};
+  };
 };
 
 

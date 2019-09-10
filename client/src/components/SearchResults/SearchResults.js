@@ -14,7 +14,7 @@ function SearchResults(props) {
                                 className="searchPageButtons"
                                 onClick={props.clickSave}>
                                 Save
-                                </button>
+                            </button>
                             <a href={result.volumeInfo.infoLink}
                                 target="_blank"
                                 rel="noopener noreferrer">
