@@ -6,18 +6,13 @@ function SearchResults(props) {
     return (
         <ul className="list-group search-results">
             {props.results.map(result => (
-                <li key={result.id} className="list-group-item">
+                <li key={result.accessInfo.id} className="list-group-item">
                     <div>
                         <h4>{result.volumeInfo.title}</h4>
                         <div>
                             <button
                                 className="searchPageButtons"
-                                onClick={() => props.clickSave(
-                                    result.id,
-                                    result.volumeInfo.title,
-                                    result.volumeInfo.authors,
-                                    result.volumeInfo.description,
-                                    result.volumeInfo.imageLinks.thumbnail)}>
+                                onClick={props.clickSave}>
                                 Save
                                 </button>
                             <a href={result.volumeInfo.infoLink}
