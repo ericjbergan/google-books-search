@@ -5,14 +5,21 @@ function SearchResults(props) {
     // console.log(props.results);
     return (
         <ul className="list-group search-results">
-            {props.results.map(result => (
-                <li key={result.accessInfo.id} className="list-group-item">
+            {props.results.map(result => {
+                
+               return <li key={result.accessInfo.id} className="list-group-item">
                     <div>
                         <h4>{result.volumeInfo.title}</h4>
                         <div>
                             <button
                                 className="searchPageButtons"
-                                onClick={props.clickSave}>
+                                onClick = {() => props.clickSave({
+                                    
+                                    title: result.volumeInfo.title,
+                                    authors: result.volumeInfo.authors,
+                                    imageURL: result.volumeInfo.imageLinks.thumbnail,
+                                    description: result.volumeInfo.description
+                                })}>
                                 Save
                             </button>
                             <a href={result.volumeInfo.infoLink}
@@ -29,7 +36,7 @@ function SearchResults(props) {
                         <p>{result.volumeInfo.description}</p>
                     </div>
                 </li>
-            ))}
+            })}
         </ul>
     );
 }
