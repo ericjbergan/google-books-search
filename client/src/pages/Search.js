@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Header from "../components/Header/Header";
 import BookSearch from "../components/BookSearch/BookSearch";
 import SearchResults from "../components/SearchResults/SearchResults"
-import Saved from "../components/Saved/Saved"
-import Nav from "../components/Nav";
 
 import API from '../utils/API'
 
@@ -13,6 +11,7 @@ class Search extends Component {
     searchResults: [],
     savedBooks: [],
     searchPage: true,
+    books: {},
   }
 
   handleInputChange = event => {
@@ -38,14 +37,14 @@ class Search extends Component {
       .catch(err => console.log(err));
   };
 
-  switchPage = () => {
-    if (this.state.searchPage) {
-      // this.setState({ searchPage: false })
-      this.loadBooks();
-    } else {
-      this.setState({ searchPage: true })
-    }
-  }
+  // switchPage = () => {
+  //   if (this.state.searchPage) {
+  //     // this.setState({ searchPage: false })
+  //     this.loadBooks();
+  //   } else {
+  //     this.setState({ searchPage: true })
+  //   }
+  // }
 
   deleteBook = id => {
     console.log("delete book");
@@ -54,11 +53,16 @@ class Search extends Component {
       .catch(err => console.log(err));
   };
 
+  componentDidMount() {
+    this.loadBooks();
+  }
+
   loadBooks = () => {
     API.getBooks()
-      .then(res =>
-        {this.setState({ savedBooks: res.data.items, searchPage: false })
-        console.log(res.body)}
+      .then(res => {
+        this.setState({ books: res.data })
+        console.log("res.data = " + res.data)
+      }
       )
       .catch(err => console.log(err));
   };
@@ -66,26 +70,19 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <Nav switch={this.switchPage} />
         <Header /><hr />
-        {this.state.searchPage ?
-          <div>
-            <BookSearch
-              value={this.state.search}
-              click={this.handleFormSubmit}
-              change={this.handleInputChange}
-            /><hr />
-            <SearchResults
-              results={this.state.searchResults}
-              clickView={this.handleClickView}
-              clickSave={this.handleClickSave}
-            />
-          </div>
-          :
-          <div>
-            < Saved saved={this.state.savedBooks} delete={this.deleteBook} />
-          </div>
-        }
+        <div>
+          <BookSearch
+            value={this.state.search}
+            click={this.handleFormSubmit}
+            change={this.handleInputChange}
+          /><hr />
+          <SearchResults
+            results={this.state.searchResults}
+            clickView={this.handleClickView}
+            clickSave={this.handleClickSave}
+          />
+        </div>
       </div>
     )
   };

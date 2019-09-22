@@ -1,5 +1,6 @@
 import React from "react";
-import "./style.css";
+import Header from "../components/Header/Header"
+import "./saved.css";
 
 function SavedBooks(props) {
     console.log("Saved: " + props.saved);
@@ -9,6 +10,7 @@ function SavedBooks(props) {
 
     return (
         <div>
+            <Header /><hr />
             <ul className="list-group load-books">
                 {props.saved.map(result => (
                     <li key={result.accessInfo.id} className="list-group-item">
@@ -17,7 +19,7 @@ function SavedBooks(props) {
                             <div>
                                 <button
                                     className="searchPageButtons"
-                                    onClick = {() => {props.delete(props.saved._id)}}>
+                                    onClick={() => { props.delete(props.saved._id) }}>
                                     Delete
                                 </button>
                                 <a href={result.volumeInfo.infoLink}
