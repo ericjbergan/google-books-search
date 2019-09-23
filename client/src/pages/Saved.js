@@ -44,10 +44,12 @@ class Books extends Component {
                                 <ListItem key={book._id}>
                                     <Link to={"/books/" + book._id}>
                                         <strong>
-                                           {book.imageURL} "  " {book.title} by {book.authors}{book.description}
+                                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                                         <p className="title"> {book.title}</p> 
+                                         <p className="authors">by {book.authors}</p>
+                                         <p>{book.description}</p>
                                         </strong>
                                     </Link>
-                                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
                                 </ListItem>
                             ))}
                         </List>
