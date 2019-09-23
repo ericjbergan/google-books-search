@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import './style.css';
 
-function Navbar(props) {
+function Nav(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-light">
             <Link className="navbar-brand" to="/">
@@ -25,4 +25,4 @@ function Navbar(props) {
     )
 }
 
-export default Navbar;
+export default Nav;

@@ -6,9 +6,8 @@ export default {
     console.log("https://www.googleapis.com/books/v1/volumes?q=" + query);
     return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + query);
 },
-  // Get books from db
+  // Gets all books from db
   getBooks: function() {
-    console.log("inside api/getBooks");
     return axios.get("/api/books");
   },
   // Gets the book with the given id
@@ -21,7 +20,6 @@ export default {
   },
   // Saves a book to the database
   saveBook: function(bookData) {
-    console.log('Inside saveBook route', bookData)
     return axios.post("/api/books", bookData);
   }
 };

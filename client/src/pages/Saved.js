@@ -1,45 +1,62 @@
-import React from "react";
+import React, { Component } from "react";
 import Header from "../components/Header/Header"
-import "./saved.css";
+import DeleteBtn from "../components/DeleteBtn";
+import API from "../utils/API";
+import { Link } from "react-router-dom";
+import { List, ListItem } from "../components/List";
 
-function SavedBooks(props) {
-    console.log("Saved: " + props.saved);
-    if (props.saved === undefined) {
-        return null;
+class Books extends Component {
+    state = {
+        books: [],
+        title: "",
+        authors: "",
+        description: "",
+        image: ""
     };
 
-    return (
-        <div>
-            <Header /><hr />
-            <ul className="list-group load-books">
-                {props.saved.map(result => (
-                    <li key={result.accessInfo.id} className="list-group-item">
-                        <div>
-                            <h4>{result.volumeInfo.title}</h4>
-                            <div>
-                                <button
-                                    className="searchPageButtons"
-                                    onClick={() => { props.delete(props.saved._id) }}>
-                                    Delete
-                                </button>
-                                <a href={result.volumeInfo.infoLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer">
-                                    <button type="button" className="searchPageButtons">View</button>
-                                </a>
+    componentDidMount() {
+        this.loadBooks();
+    }
 
-                            </div>
-                        </div>
-                        <p>{result.volumeInfo.authors}</p>
-                        <div>
-                            <img alt="Book" src={result.volumeInfo.imageLinks.thumbnail} className="img-fluid" />
-                            <p>{result.volumeInfo.description}</p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+    loadBooks = () => {
+        API.getBooks()
+            .then(res => {
+                this.setState({ books: res.data, title: "", authors: "", description: "", image: "" })
+                console.log("res.data: " + res.data)
+                console.log(this.state)
+            })
+            .catch(err => console.log(err));
+    };
+
+    deleteBook = id => {
+        API.deleteBook(id)
+            .then(res => this.loadBooks())
+            .catch(err => console.log(err));
+    };
+
+    render() {
+        return (
+            <div>
+                    <Header /><hr />
+                    {this.state.books.length ? (
+                        <List>
+                            {this.state.books.map(book => (
+                                <ListItem key={book._id}>
+                                    <Link to={"/books/" + book._id}>
+                                        <strong>
+                                           {book.imageURL} "  " {book.title} by {book.authors}{book.description}
+                                        </strong>
+                                    </Link>
+                                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    ) : (
+                            <h3>No Results to Display</h3>
+                        )}
+            </div>
+        );
+    }
 }
 
-export default SavedBooks;
+export default Books;
